@@ -299,6 +299,182 @@
       "source": "celestiaorg/celestia-app",
       "title": "Celestia",
       "link": "https://github.com/celestiaorg/celestia-app/commit/088e0338efa1ee6cf892e864eb83532d99d25579"
+    },
+    "url:https://github.com/ethereum/go-ethereum/commit/e03d97a42052097d817eb13c22a2f1a6459518e1": {
+      "timestamp": "2025-10-14T15:37:20.102Z",
+      "source": "ethereum/go-ethereum",
+      "title": "Ethereum (go-ethereum)",
+      "link": "https://github.com/ethereum/go-ethereum/commit/e03d97a42052097d817eb13c22a2f1a6459518e1",
+      "status": "processed"
+    },
+    "url:https://github.com/matter-labs/zksync-era/commit/b57d6f6eb2c908692f356f584a8e3b0158ef2969": {
+      "timestamp": "2025-10-14T15:37:20.105Z",
+      "source": "matter-labs/zksync-era",
+      "title": "zkSync Era",
+      "link": "https://github.com/matter-labs/zksync-era/commit/b57d6f6eb2c908692f356f584a8e3b0158ef2969",
+      "status": "processed"
+    },
+    "url:https://decrypt.co/344223/blackrock-developing-tokenization-tech-bitcoin-ethereum-etf-success": {
+      "timestamp": "2025-10-14T15:37:20.107Z",
+      "source": "Decrypt",
+      "title": "BlackRock",
+      "link": "https://decrypt.co/344223/blackrock-developing-tokenization-tech-bitcoin-ethereum-etf-success",
+      "status": "processed"
+    },
+    "url:https://www.binance.com/en/support/announcement/3d45a1ab541f463982d59c8de85e36b8": {
+      "timestamp": "2025-10-14T15:37:20.109Z",
+      "source": "Binance Announcements",
+      "title": "Binance",
+      "link": "https://www.binance.com/en/support/announcement/3d45a1ab541f463982d59c8de85e36b8",
+      "status": "processed"
+    },
+    "url:https://www.coindesk.com/markets/2025/10/14/dws-sees-stablecoins-emerging-as-core-payments-infrastructure": {
+      "timestamp": "2025-10-14T15:37:20.111Z",
+      "source": "CoinDesk",
+      "title": "Stablecoins",
+      "link": "https://www.coindesk.com/markets/2025/10/14/dws-sees-stablecoins-emerging-as-core-payments-infrastructure",
+      "status": "processed"
+    },
+    "url:https://decrypt.co/344224/us-seeks-14-billion-bitcoin-cambodian-crypto-scammer-record-forfeiture": {
+      "timestamp": "2025-10-14T15:37:20.114Z",
+      "source": "Decrypt",
+      "title": "Cambodian Crypto Scammer",
+      "link": "https://decrypt.co/344224/us-seeks-14-billion-bitcoin-cambodian-crypto-scammer-record-forfeiture",
+      "status": "processed"
+    },
+    "url:https://www.coindesk.com/business/2025/10/14/blackrock-ceo-larry-fink-eyes-bigger-role-in-tokenization": {
+      "timestamp": "2025-10-14T15:37:20.116Z",
+      "source": "CoinDesk",
+      "title": "BlackRock",
+      "link": "https://www.coindesk.com/business/2025/10/14/blackrock-ceo-larry-fink-eyes-bigger-role-in-tokenization",
+      "status": "processed"
+    },
+    "url:https://coinmarketcap.com/community/post/369557018": {
+      "timestamp": "2025-10-14T15:37:20.118Z",
+      "source": "CoinMarketCap Announcements",
+      "title": "Ethereum",
+      "link": "https://coinmarketcap.com/community/post/369557018",
+      "status": "processed"
+    },
+    "url:https://coinmarketcap.com/community/post/369552751": {
+      "timestamp": "2025-10-14T15:37:20.120Z",
+      "source": "CoinMarketCap Announcements",
+      "title": "JPMorgan",
+      "link": "https://coinmarketcap.com/community/post/369552751",
+      "status": "processed"
+    },
+    "url:https://coinmarketcap.com/community/post/369556685": {
+      "timestamp": "2025-10-14T15:37:20.122Z",
+      "source": "CoinMarketCap Announcements",
+      "title": "Citi",
+      "link": "https://coinmarketcap.com/community/post/369556685",
+      "status": "processed"
+    },
+    "url:https://cointelegraph.com/news/elon-musk-bitcoin-fiat-ai-arms-race": {
+      "timestamp": "2025-10-14T15:37:20.124Z",
+      "source": "CoinTelegraph",
+      "title": "Bitcoin",
+      "link": "https://cointelegraph.com/news/elon-musk-bitcoin-fiat-ai-arms-race?utm_source=rss_feed&utm_medium=rss&utm_campaign=rss_partner_inbound",
+      "status": "processed"
+    },
+    "url:https://cointelegraph.com/news/oracle-problem-isn-t-just-technical-it-s-political": {
+      "timestamp": "2025-10-14T15:37:20.126Z",
+      "source": "CoinTelegraph",
+      "title": "Oracles",
+      "link": "https://cointelegraph.com/news/oracle-problem-isn-t-just-technical-it-s-political?utm_source=rss_feed&utm_medium=rss&utm_campaign=rss_partner_inbound",
+      "status": "processed"
+    },
+    "url:https://www.coindesk.com/markets/2025/10/14/circle-can-withstand-rate-cuts-as-stablecoin-demand-grows-bernstein": {
+      "timestamp": "2025-10-14T15:37:20.129Z",
+      "source": "CoinDesk",
+      "title": "Circle",
+      "link": "https://www.coindesk.com/markets/2025/10/14/circle-can-withstand-rate-cuts-as-stablecoin-demand-grows-bernstein",
+      "status": "processed"
+    },
+    "url:https://www.coindesk.com/business/2025/10/14/s-and-p-global-brings-stablecoin-risk-scores-onchain-through-chainlink": {
+      "timestamp": "2025-10-14T15:37:20.132Z",
+      "source": "CoinDesk",
+      "title": "Chainlink, S&P Global",
+      "link": "https://www.coindesk.com/business/2025/10/14/s-and-p-global-brings-stablecoin-risk-scores-onchain-through-chainlink",
+      "status": "processed"
+    },
+    "url:https://cointelegraph.com/explained/bitcoin-mining-in-2025": {
+      "timestamp": "2025-10-14T15:37:20.134Z",
+      "source": "CoinTelegraph",
+      "title": "Bitcoin",
+      "link": "https://cointelegraph.com/explained/bitcoin-mining-in-2025?utm_source=rss_feed&utm_medium=rss&utm_campaign=rss_partner_inbound",
+      "status": "processed"
+    },
+    "url:https://decrypt.co/344184/morning-minute-citi-sets-sights-on-2026-for-crypto-custody": {
+      "timestamp": "2025-10-14T15:37:20.136Z",
+      "source": "Decrypt",
+      "title": "Citi",
+      "link": "https://decrypt.co/344184/morning-minute-citi-sets-sights-on-2026-for-crypto-custody",
+      "status": "processed"
+    },
+    "url:https://github.com/ethereum/go-ethereum/commit/f6064f32c4abeffa99c4c29674fe9ba756e90e08": {
+      "timestamp": "2025-10-14T15:37:20.139Z",
+      "source": "ethereum/go-ethereum",
+      "title": "Ethereum (go-ethereum)",
+      "link": "https://github.com/ethereum/go-ethereum/commit/f6064f32c4abeffa99c4c29674fe9ba756e90e08",
+      "status": "processed"
+    },
+    "url:https://github.com/ethereum/go-ethereum/commit/7b693ea17c9e5e950a36df29262fab7862ffda23": {
+      "timestamp": "2025-10-14T15:37:20.140Z",
+      "source": "ethereum/go-ethereum",
+      "title": "Ethereum (go-ethereum)",
+      "link": "https://github.com/ethereum/go-ethereum/commit/7b693ea17c9e5e950a36df29262fab7862ffda23",
+      "status": "processed"
+    },
+    "url:https://github.com/erigontech/erigon/commit/d2b228e9b1c8ee0cf319a00ed988fcb9561aaecd": {
+      "timestamp": "2025-10-14T15:37:20.142Z",
+      "source": "erigontech/erigon",
+      "title": "Erigon",
+      "link": "https://github.com/erigontech/erigon/commit/d2b228e9b1c8ee0cf319a00ed988fcb9561aaecd",
+      "status": "processed"
+    },
+    "url:https://github.com/celestiaorg/celestia-node/commit/78cbb9541aa61bda47907113956aedf556bee8cd": {
+      "timestamp": "2025-10-14T15:37:20.144Z",
+      "source": "celestiaorg/celestia-node",
+      "title": "Celestia",
+      "link": "https://github.com/celestiaorg/celestia-node/commit/78cbb9541aa61bda47907113956aedf556bee8cd",
+      "status": "processed"
+    },
+    "url:https://www.coindesk.com/markets/2025/10/14/circle-called-most-important-stablecoin-player-by-investment-firm-william-blair": {
+      "timestamp": "2025-10-14T16:26:03.576Z",
+      "source": "CoinDesk",
+      "title": "Circle (USDC)",
+      "link": "https://www.coindesk.com/markets/2025/10/14/circle-called-most-important-stablecoin-player-by-investment-firm-william-blair"
+    },
+    "url:https://github.com/ethereum-optimism/optimism/releases/tag/op-deployer/v0.4.5": {
+      "timestamp": "2025-10-14T16:26:06.067Z",
+      "source": "ethereum-optimism/optimism",
+      "title": "Optimism op-deployer",
+      "link": "https://github.com/ethereum-optimism/optimism/releases/tag/op-deployer/v0.4.5"
+    },
+    "url:https://forum.arbitrum.foundation/t/watchdog-program-october-14th-parameter-adjustments-update/30094": {
+      "timestamp": "2025-10-14T16:26:08.852Z",
+      "source": "Arbitrum Forum",
+      "title": "Arbitrum Watchdog Program Parameter Adjustments",
+      "link": "https://forum.arbitrum.foundation/t/watchdog-program-october-14th-parameter-adjustments-update/30094"
+    },
+    "url:https://blog.ethereum.org/en/2025/10/14/internship-2026": {
+      "timestamp": "2025-10-14T16:26:11.442Z",
+      "source": "Ethereum Foundation",
+      "title": "Ethereum Foundation",
+      "link": "https://blog.ethereum.org/en/2025/10/14/internship-2026"
+    },
+    "url:https://dexscreener.com/bsc/0x3228185dbde96b592a76151edf0fd3234ebf1bdc": {
+      "timestamp": "2025-10-14T16:26:11.992Z",
+      "source": "CUPANG VENTURES",
+      "title": "BSC Token",
+      "link": "https://dexscreener.com/bsc/0x3228185dbde96b592a76151edf0fd3234ebf1bdc"
+    },
+    "url:https://airdrop.chog.xyz/": {
+      "timestamp": "2025-10-14T16:26:14.512Z",
+      "source": "Airdrop Finder",
+      "title": "CHOG Airdrop",
+      "link": "https://airdrop.chog.xyz/"
     }
   },
   "content_hashes": {
@@ -551,6 +727,182 @@
       "timestamp": "2025-10-03T04:34:17.207Z",
       "source": "celestiaorg/celestia-app",
       "title": "Celestia"
+    },
+    "mpjpux": {
+      "timestamp": "2025-10-14T15:37:20.102Z",
+      "source": "ethereum/go-ethereum",
+      "title": "Ethereum (go-ethereum)",
+      "link": "https://github.com/ethereum/go-ethereum/commit/e03d97a42052097d817eb13c22a2f1a6459518e1",
+      "status": "processed"
+    },
+    "kemlze": {
+      "timestamp": "2025-10-14T15:37:20.105Z",
+      "source": "matter-labs/zksync-era",
+      "title": "zkSync Era",
+      "link": "https://github.com/matter-labs/zksync-era/commit/b57d6f6eb2c908692f356f584a8e3b0158ef2969",
+      "status": "processed"
+    },
+    "kj043": {
+      "timestamp": "2025-10-14T15:37:20.107Z",
+      "source": "Decrypt",
+      "title": "BlackRock",
+      "link": "https://decrypt.co/344223/blackrock-developing-tokenization-tech-bitcoin-ethereum-etf-success",
+      "status": "processed"
+    },
+    "o0f1c": {
+      "timestamp": "2025-10-14T15:37:20.109Z",
+      "source": "Binance Announcements",
+      "title": "Binance",
+      "link": "https://www.binance.com/en/support/announcement/3d45a1ab541f463982d59c8de85e36b8",
+      "status": "processed"
+    },
+    "dog08j": {
+      "timestamp": "2025-10-14T15:37:20.111Z",
+      "source": "CoinDesk",
+      "title": "Stablecoins",
+      "link": "https://www.coindesk.com/markets/2025/10/14/dws-sees-stablecoins-emerging-as-core-payments-infrastructure",
+      "status": "processed"
+    },
+    "irciiy": {
+      "timestamp": "2025-10-14T15:37:20.114Z",
+      "source": "Decrypt",
+      "title": "Cambodian Crypto Scammer",
+      "link": "https://decrypt.co/344224/us-seeks-14-billion-bitcoin-cambodian-crypto-scammer-record-forfeiture",
+      "status": "processed"
+    },
+    "evoy1u": {
+      "timestamp": "2025-10-14T15:37:20.116Z",
+      "source": "CoinDesk",
+      "title": "BlackRock",
+      "link": "https://www.coindesk.com/business/2025/10/14/blackrock-ceo-larry-fink-eyes-bigger-role-in-tokenization",
+      "status": "processed"
+    },
+    "a1cvrq": {
+      "timestamp": "2025-10-14T15:37:20.118Z",
+      "source": "CoinMarketCap Announcements",
+      "title": "Ethereum",
+      "link": "https://coinmarketcap.com/community/post/369557018",
+      "status": "processed"
+    },
+    "lsyic": {
+      "timestamp": "2025-10-14T15:37:20.120Z",
+      "source": "CoinMarketCap Announcements",
+      "title": "JPMorgan",
+      "link": "https://coinmarketcap.com/community/post/369552751",
+      "status": "processed"
+    },
+    "h9z6s": {
+      "timestamp": "2025-10-14T15:37:20.122Z",
+      "source": "CoinMarketCap Announcements",
+      "title": "Citi",
+      "link": "https://coinmarketcap.com/community/post/369556685",
+      "status": "processed"
+    },
+    "jq2pv5": {
+      "timestamp": "2025-10-14T15:37:20.124Z",
+      "source": "CoinTelegraph",
+      "title": "Bitcoin",
+      "link": "https://cointelegraph.com/news/elon-musk-bitcoin-fiat-ai-arms-race?utm_source=rss_feed&utm_medium=rss&utm_campaign=rss_partner_inbound",
+      "status": "processed"
+    },
+    "ixus62": {
+      "timestamp": "2025-10-14T15:37:20.126Z",
+      "source": "CoinTelegraph",
+      "title": "Oracles",
+      "link": "https://cointelegraph.com/news/oracle-problem-isn-t-just-technical-it-s-political?utm_source=rss_feed&utm_medium=rss&utm_campaign=rss_partner_inbound",
+      "status": "processed"
+    },
+    "nxifvv": {
+      "timestamp": "2025-10-14T15:37:20.129Z",
+      "source": "CoinDesk",
+      "title": "Circle",
+      "link": "https://www.coindesk.com/markets/2025/10/14/circle-can-withstand-rate-cuts-as-stablecoin-demand-grows-bernstein",
+      "status": "processed"
+    },
+    "5zjbkn": {
+      "timestamp": "2025-10-14T15:37:20.132Z",
+      "source": "CoinDesk",
+      "title": "Chainlink, S&P Global",
+      "link": "https://www.coindesk.com/business/2025/10/14/s-and-p-global-brings-stablecoin-risk-scores-onchain-through-chainlink",
+      "status": "processed"
+    },
+    "z7r59r": {
+      "timestamp": "2025-10-14T15:37:20.134Z",
+      "source": "CoinTelegraph",
+      "title": "Bitcoin",
+      "link": "https://cointelegraph.com/explained/bitcoin-mining-in-2025?utm_source=rss_feed&utm_medium=rss&utm_campaign=rss_partner_inbound",
+      "status": "processed"
+    },
+    "igw47j": {
+      "timestamp": "2025-10-14T15:37:20.136Z",
+      "source": "Decrypt",
+      "title": "Citi",
+      "link": "https://decrypt.co/344184/morning-minute-citi-sets-sights-on-2026-for-crypto-custody",
+      "status": "processed"
+    },
+    "2u1udf": {
+      "timestamp": "2025-10-14T15:37:20.139Z",
+      "source": "ethereum/go-ethereum",
+      "title": "Ethereum (go-ethereum)",
+      "link": "https://github.com/ethereum/go-ethereum/commit/f6064f32c4abeffa99c4c29674fe9ba756e90e08",
+      "status": "processed"
+    },
+    "8qk89m": {
+      "timestamp": "2025-10-14T15:37:20.140Z",
+      "source": "ethereum/go-ethereum",
+      "title": "Ethereum (go-ethereum)",
+      "link": "https://github.com/ethereum/go-ethereum/commit/7b693ea17c9e5e950a36df29262fab7862ffda23",
+      "status": "processed"
+    },
+    "jhfi2i": {
+      "timestamp": "2025-10-14T15:37:20.142Z",
+      "source": "erigontech/erigon",
+      "title": "Erigon",
+      "link": "https://github.com/erigontech/erigon/commit/d2b228e9b1c8ee0cf319a00ed988fcb9561aaecd",
+      "status": "processed"
+    },
+    "tosvae": {
+      "timestamp": "2025-10-14T15:37:20.144Z",
+      "source": "celestiaorg/celestia-node",
+      "title": "Celestia",
+      "link": "https://github.com/celestiaorg/celestia-node/commit/78cbb9541aa61bda47907113956aedf556bee8cd",
+      "status": "processed"
+    },
+    "47jjt4": {
+      "timestamp": "2025-10-14T16:26:03.576Z",
+      "source": "CoinDesk",
+      "title": "Circle (USDC)",
+      "link": "https://www.coindesk.com/markets/2025/10/14/circle-called-most-important-stablecoin-player-by-investment-firm-william-blair"
+    },
+    "vjlrft": {
+      "timestamp": "2025-10-14T16:26:06.067Z",
+      "source": "ethereum-optimism/optimism",
+      "title": "Optimism op-deployer",
+      "link": "https://github.com/ethereum-optimism/optimism/releases/tag/op-deployer/v0.4.5"
+    },
+    "ufcjzo": {
+      "timestamp": "2025-10-14T16:26:08.852Z",
+      "source": "Arbitrum Forum",
+      "title": "Arbitrum Watchdog Program Parameter Adjustments",
+      "link": "https://forum.arbitrum.foundation/t/watchdog-program-october-14th-parameter-adjustments-update/30094"
+    },
+    "qvt8w1": {
+      "timestamp": "2025-10-14T16:26:11.442Z",
+      "source": "Ethereum Foundation",
+      "title": "Ethereum Foundation",
+      "link": "https://blog.ethereum.org/en/2025/10/14/internship-2026"
+    },
+    "a2h6cj": {
+      "timestamp": "2025-10-14T16:26:11.992Z",
+      "source": "CUPANG VENTURES",
+      "title": "BSC Token",
+      "link": "https://dexscreener.com/bsc/0x3228185dbde96b592a76151edf0fd3234ebf1bdc"
+    },
+    "9kjk4b": {
+      "timestamp": "2025-10-14T16:26:14.512Z",
+      "source": "Airdrop Finder",
+      "title": "CHOG Airdrop",
+      "link": "https://airdrop.chog.xyz/"
     }
   },
   "title_hashes": {
@@ -723,6 +1075,36 @@
       "timestamp": "2025-10-03T04:34:17.207Z",
       "source": "celestiaorg/celestia-app",
       "link": "https://github.com/celestiaorg/celestia-app/commit/088e0338efa1ee6cf892e864eb83532d99d25579"
+    },
+    "226scz": {
+      "timestamp": "2025-10-14T16:26:03.576Z",
+      "source": "CoinDesk",
+      "link": "https://www.coindesk.com/markets/2025/10/14/circle-called-most-important-stablecoin-player-by-investment-firm-william-blair"
+    },
+    "czobih": {
+      "timestamp": "2025-10-14T16:26:06.067Z",
+      "source": "ethereum-optimism/optimism",
+      "link": "https://github.com/ethereum-optimism/optimism/releases/tag/op-deployer/v0.4.5"
+    },
+    "eg2502": {
+      "timestamp": "2025-10-14T16:26:08.852Z",
+      "source": "Arbitrum Forum",
+      "link": "https://forum.arbitrum.foundation/t/watchdog-program-october-14th-parameter-adjustments-update/30094"
+    },
+    "ymwc5g": {
+      "timestamp": "2025-10-14T16:26:11.442Z",
+      "source": "Ethereum Foundation",
+      "link": "https://blog.ethereum.org/en/2025/10/14/internship-2026"
+    },
+    "8hg87f": {
+      "timestamp": "2025-10-14T16:26:11.992Z",
+      "source": "CUPANG VENTURES",
+      "link": "https://dexscreener.com/bsc/0x3228185dbde96b592a76151edf0fd3234ebf1bdc"
+    },
+    "epdasq": {
+      "timestamp": "2025-10-14T16:26:14.512Z",
+      "source": "Airdrop Finder",
+      "link": "https://airdrop.chog.xyz/"
     }
   },
   "source_hashes": {
@@ -760,15 +1142,7 @@
       "2025-10-03T04:32:12.151Z"
     ],
     "coindesk": [
-      "2025-10-03T04:32:32.007Z",
-      "2025-10-03T04:32:52.764Z",
-      "2025-10-03T04:32:57.622Z",
-      "2025-10-03T04:33:00.064Z",
-      "2025-10-03T04:33:07.463Z",
-      "2025-10-03T04:33:09.944Z",
-      "2025-10-03T04:33:12.384Z",
-      "2025-10-03T04:33:14.815Z",
-      "2025-10-03T04:33:17.245Z"
+      "2025-10-14T16:26:03.576Z"
     ],
     "the defiant": [
       "2025-10-03T04:32:55.192Z",
@@ -788,11 +1162,7 @@
       "2025-10-03T04:33:27.712Z"
     ],
     "ethereum-optimism/optimism": [
-      "2025-10-03T04:33:30.154Z",
-      "2025-10-03T04:33:32.845Z",
-      "2025-10-03T04:33:35.484Z",
-      "2025-10-03T04:34:20.333Z",
-      "2025-10-03T04:34:22.781Z"
+      "2025-10-14T16:26:06.067Z"
     ],
     "scroll-tech/scroll": [
       "2025-10-03T04:33:50.914Z",
@@ -815,7 +1185,19 @@
     ],
     "celestiaorg/celestia-app": [
       "2025-10-03T04:34:17.207Z"
+    ],
+    "arbitrum forum": [
+      "2025-10-14T16:26:08.852Z"
+    ],
+    "ethereum foundation": [
+      "2025-10-14T16:26:11.442Z"
+    ],
+    "cupang ventures": [
+      "2025-10-14T16:26:11.992Z"
+    ],
+    "airdrop finder": [
+      "2025-10-14T16:26:14.512Z"
     ]
   },
-  "lastUpdated": "2025-10-03T04:34:27.235Z"
+  "lastUpdated": "2025-10-14T16:26:14.515Z"
 }

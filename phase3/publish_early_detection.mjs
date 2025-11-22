@@ -554,15 +554,16 @@ async function publishEarlyDetection() {
       console.log(`   Title: ${analysis.project_name} - ${analysis.opportunity_type}`);
       console.log(`   Score: ${Math.round(analysis.score / 10)}/10`);
       
-      // Build signal for final duplicate check
+      // Mark as processed BEFORE sending to prevent duplicate processing
       const signalForTracking = {
         source: originalSignal?.source || 'Unknown',
         title: analysis.project_name,
         link: analysis.evidence?.[0] || '',
         content: analysis.investment_angle || ''
       };
+      deduplication.markAsProcessed(signalForTracking);
       
-      // Final duplicate guard right before sending (do NOT mark processed yet)
+      // Final duplicate guard right before sending
       const preSendDupCheck = deduplication.checkDeduplication(signalForTracking, {
         contentSimilarityThreshold: 0.6,
         titleSimilarityThreshold: 0.7,
@@ -584,8 +585,7 @@ async function publishEarlyDetection() {
         publishResults.sent++;
         console.log(`✅ Hot opportunity ${i + 1} sent successfully`);
         
-        // Now mark as processed and published AFTER successful send
-        deduplication.markAsProcessed(signalForTracking);
+        // Mark as published in deduplication tracker and persist immediately
         deduplication.markAsPublished(signalForTracking);
         deduplication.finalize();
       } else {
@@ -626,15 +626,16 @@ async function publishEarlyDetection() {
       console.log(`   Title: ${analysis.project_name} - ${analysis.opportunity_type}`);
       console.log(`   Score: ${Math.round(analysis.score / 10)}/10`);
       
-      // Build signal for final duplicate check
+      // Mark as processed BEFORE sending to prevent duplicate processing
       const signalForTracking = {
         source: originalSignal?.source || 'Unknown',
         title: analysis.project_name,
         link: analysis.evidence?.[0] || '',
         content: analysis.investment_angle || ''
       };
+      deduplication.markAsProcessed(signalForTracking);
       
-      // Final duplicate guard right before sending (do NOT mark processed yet)
+      // Final duplicate guard right before sending
       const preSendDupCheck = deduplication.checkDeduplication(signalForTracking, {
         contentSimilarityThreshold: 0.6,
         titleSimilarityThreshold: 0.7,
@@ -656,8 +657,7 @@ async function publishEarlyDetection() {
         publishResults.sent++;
         console.log(`✅ Early signal ${i + 1} sent successfully`);
         
-        // Now mark as processed and published AFTER successful send
-        deduplication.markAsProcessed(signalForTracking);
+        // Mark as published in deduplication tracker and persist immediately
         deduplication.markAsPublished(signalForTracking);
         deduplication.finalize();
       } else {
