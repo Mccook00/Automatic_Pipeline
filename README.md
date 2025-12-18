@@ -93,6 +93,34 @@ node run_complete_pipeline.mjs
 ## 🎯 Output
 
 - **Daily Signals**: `data/[date]/daily_signals.json`
-- **Analysis Results**: `data/[date]/gemini_phase2_analysis.json`
-- **Summary**: `data/[date]/gemini_phase2_summary.txt`
+- **Analysis Results**: `data/[date]/gemini_all_signals_analysis.json`
+- **Summary**: `data/[date]/gemini_all_signals_summary.txt`
 - **Telegram Messages**: Published to your private channel with formatted opportunities
+
+## 🤖 GitHub Actions Automation
+
+**Run automatically every 3 hours (8 times per day):**
+
+```
+00:00, 03:00, 06:00, 09:00, 12:00, 15:00, 18:00, 21:00 UTC
+(01:00, 04:00, 07:00, 10:00, 13:00, 16:00, 19:00, 22:00 Europe/Zurich time)
+```
+
+### Setup Instructions
+
+1. **Start Here** → [`QUICK_START_GITHUB_ACTIONS.md`](./QUICK_START_GITHUB_ACTIONS.md) - 5-step setup guide
+2. **Complete Setup** → [`GITHUB_ACTIONS_SETUP.md`](./GITHUB_ACTIONS_SETUP.md) - Full configuration guide
+3. **Checklist** → [`GITHUB_SETUP_CHECKLIST.md`](./GITHUB_SETUP_CHECKLIST.md) - Step-by-step verification
+4. **Schedule Details** → [`GITHUB_ACTIONS_SCHEDULE.md`](./GITHUB_ACTIONS_SCHEDULE.md) - Timing and cron info
+5. **Summary** → [`GITHUB_ACTIONS_SUMMARY.md`](./GITHUB_ACTIONS_SUMMARY.md) - Configuration summary
+
+### Required Secrets
+
+Add these to GitHub Settings → Secrets → Actions:
+
+- `TG_TOKEN` - Telegram bot token
+- `TELEGRAM_CHANNEL_ID` - Your private channel ID
+- `GEMINI_API_KEY1` - (+ GEMINI_API_KEY2-6 optional)
+- `API_ID` - Telegram API ID
+- `API_HASH` - Telegram API hash
+- `TELEGRAM_SESSION` - Telegram session string

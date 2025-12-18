@@ -9,8 +9,9 @@ on:
         default: false
         type: boolean
   schedule:
-    # Run every 2 hours at minute 0 UTC (reduced frequency for production)
-    - cron: '0 */2 * * *'
+    # Run every 4 hours at minute 0 UTC (6 times per day)
+    # Schedule: 00:00, 04:00, 08:00, 12:00, 16:00, 20:00 UTC
+    - cron: '0 */4 * * *'
 
 permissions:
   contents: read

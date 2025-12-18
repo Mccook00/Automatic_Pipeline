@@ -1,7 +1,7 @@
 # GitHub Actions Setup untuk Crypto Early Detection Pipeline
 
 ## Overview
-Pipeline ini akan berjalan otomatis setiap 2 jam untuk mengumpulkan, menganalisis, dan mempublikasikan sinyal crypto early detection ke Telegram.
+Pipeline ini akan berjalan otomatis setiap 3 jam (8 kali per hari) untuk mengumpulkan, menganalisis, dan mempublikasikan sinyal crypto early detection ke Telegram.
 
 ## Required Secrets
 
@@ -47,8 +47,10 @@ GITHUB_TOKEN=your_github_token
 ## Workflow Features
 
 ### Automatic Scheduling
-- **Schedule**: Setiap 2 jam (cron: `0 */2 * * *`)
-- **Timezone**: Europe/Zurich
+- **Schedule**: Setiap 3 jam (8 kali per 24 jam) - cron: `0 */3 * * *`
+- **Jam Eksekusi (UTC)**: 00:00, 03:00, 06:00, 09:00, 12:00, 15:00, 18:00, 21:00
+- **Jam Eksekusi (Europe/Zurich)**: 01:00, 04:00, 07:00, 10:00, 13:00, 16:00, 19:00, 22:00
+- **Timezone**: Europe/Zurich (UTC+1/UTC+2 depending on DST)
 - **Manual Trigger**: Tersedia dengan opsi reset trackers
 
 ### Error Handling
