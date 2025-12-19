@@ -9,9 +9,14 @@ on:
         default: false
         type: boolean
   schedule:
-    # Run every 4 hours at minute 0 UTC (6 times per day)
-    # Schedule: 00:00, 04:00, 08:00, 12:00, 16:00, 20:00 UTC
-    - cron: '0 */4 * * *'
+    # Run every 4 hours starting from 08:00 AM Switzerland time (Europe/Zurich)
+    # Switzerland uses CET (UTC+1) in winter and CEST (UTC+2) in summer
+    # Schedule in UTC to match 08:00, 12:00, 16:00, 20:00, 00:00, 04:00 Switzerland time
+    # Using 07:00 UTC as base (08:00 CET / 09:00 CEST) for consistency
+    # This will run at approximately:
+    # - Winter (CET): 08:00, 12:00, 16:00, 20:00, 00:00, 04:00 Switzerland time
+    # - Summer (CEST): 09:00, 13:00, 17:00, 21:00, 01:00, 05:00 Switzerland time
+    - cron: '0 7,11,15,19,23,3 * * *'
 
 permissions:
   contents: read
