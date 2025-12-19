@@ -403,19 +403,35 @@ async function publishEarlyDetection() {
     const cleanUrl = analysis.url_key || '';
     if (cleanUrl && deduplication.checkURLAlreadyProcessed(cleanUrl)) {
       alreadyProcessedDuplicates.push(analysis);
-      console.log(`❌ Already processed (tracker): ${cleanUrl}`);
+      console.log(`❌ Already processed (tracker): ${cleanUrl.substring(0, 80)}...`);
       continue;
     }
     
+    // Check for duplicate URL in current batch
     if (analysis.url_key && urlSeen.has(analysis.url_key)) {
       urlDuplicates.push(analysis);
-      console.log(`❌ URL duplicate filtered: ${analysis.url_key}`);
-    } else {
-      if (analysis.url_key) {
-        urlSeen.add(analysis.url_key);
-      }
-      urlFilteredAnalyses.push(analysis);
+      console.log(`❌ URL duplicate filtered: ${analysis.url_key.substring(0, 80)}...`);
+      continue;
     }
+    
+    // Also check for similar URLs (same domain + similar path)
+    if (analysis.url_key) {
+      try {
+        const urlObj = new URL(analysis.url_key);
+        const domainPath = `${urlObj.hostname}${urlObj.pathname}`;
+        if (urlSeen.has(domainPath)) {
+          urlDuplicates.push(analysis);
+          console.log(`❌ Similar URL filtered: ${domainPath.substring(0, 80)}...`);
+          continue;
+        }
+        urlSeen.add(domainPath);
+      } catch {
+        // If URL parsing fails, just use the original key
+      }
+      urlSeen.add(analysis.url_key);
+    }
+    
+    urlFilteredAnalyses.push(analysis);
   }
   
   console.log(`📊 URL filtering results:`);
@@ -426,15 +442,17 @@ async function publishEarlyDetection() {
   // Apply advanced deduplication
   console.log('\n🔍 Applying Advanced Deduplication...');
   const dedupOptions = {
-    contentSimilarityThreshold: 0.6, // More strict - 60% similarity
-    titleSimilarityThreshold: 0.7,   // More strict - 70% similarity
-    maxSourcePerHour: 1,             // More strict - 1 per hour
-    maxSignalsPerRun: 20,            // More strict - 20 per run
-    checkURLProcessed: true,         // Enable URL-based deduplication
-    checkAlreadyPublished: true,     // Enable published check
-    checkContent: true,              // Enable content similarity
-    checkTitle: true,                // Enable title similarity
-    checkSource: true                // Enable source frequency
+    // Deduplication ketat untuk menghindari konten duplikat
+    contentSimilarityThreshold: 0.75,  // Lebih ketat - 75% similarity = duplicate
+    titleSimilarityThreshold: 0.85,   // Lebih ketat - 85% similarity = duplicate
+    maxSourcePerHour: 10,              // Maksimal 10 per sumber per jam (lebih longgar)
+    maxSignalsPerRun: 50,              // Maksimal 50 sinyal per run
+    // Aktifkan check untuk menghindari duplikat konten/judul, tapi izinkan repost URL
+    checkURLProcessed: false,          // Izinkan repost URL (daily highlights)
+    checkAlreadyPublished: false,      // Izinkan repost (daily highlights)
+    checkContent: true,                // Cek similarity konten - PENTING untuk hindari duplikat
+    checkTitle: true,                  // Cek similarity judul - PENTING untuk hindari duplikat
+    checkSource: true                  // Cek frekuensi sumber
   };
   
   const dedupResult = deduplication.filterSignalsForPublishing(urlFilteredAnalyses, dedupOptions);
@@ -563,22 +581,22 @@ async function publishEarlyDetection() {
       };
       deduplication.markAsProcessed(signalForTracking);
       
-      // Final duplicate guard right before sending
+      // Final duplicate guard right before sending - fokus pada konten/judul duplikat
       const preSendDupCheck = deduplication.checkDeduplication(signalForTracking, {
-        contentSimilarityThreshold: 0.6,
-        titleSimilarityThreshold: 0.7,
-        maxSourcePerHour: 1,
-        checkContent: true,
-        checkTitle: true,
+        contentSimilarityThreshold: 0.75,
+        titleSimilarityThreshold: 0.85,
+        maxSourcePerHour: 10,
+        checkContent: true,            // PENTING: cek konten duplikat
+        checkTitle: true,               // PENTING: cek judul duplikat
         checkSource: true,
-        checkAlreadyPublished: true,
-        checkURLProcessed: true
+        checkAlreadyPublished: false,   // Izinkan repost (daily highlights)
+        checkURLProcessed: false        // Izinkan repost URL
       });
       if (preSendDupCheck.isDuplicate) {
         console.log(`❌ Skipping send (final guard): ${preSendDupCheck.reasons.join(', ')}`);
         continue;
       }
-      
+            
       publishResults.total++;
       const result = await sendToTelegramBot(message, botConfig);
       if (result.success) {
@@ -635,22 +653,22 @@ async function publishEarlyDetection() {
       };
       deduplication.markAsProcessed(signalForTracking);
       
-      // Final duplicate guard right before sending
+      // Final duplicate guard right before sending - fokus pada konten/judul duplikat
       const preSendDupCheck = deduplication.checkDeduplication(signalForTracking, {
-        contentSimilarityThreshold: 0.6,
-        titleSimilarityThreshold: 0.7,
-        maxSourcePerHour: 1,
-        checkContent: true,
-        checkTitle: true,
+        contentSimilarityThreshold: 0.75,
+        titleSimilarityThreshold: 0.85,
+        maxSourcePerHour: 10,
+        checkContent: true,            // PENTING: cek konten duplikat
+        checkTitle: true,               // PENTING: cek judul duplikat
         checkSource: true,
-        checkAlreadyPublished: true,
-        checkURLProcessed: true
+        checkAlreadyPublished: false,   // Izinkan repost (daily highlights)
+        checkURLProcessed: false        // Izinkan repost URL
       });
       if (preSendDupCheck.isDuplicate) {
         console.log(`❌ Skipping send (final guard): ${preSendDupCheck.reasons.join(', ')}`);
         continue;
       }
-      
+
       publishResults.total++;
       const result = await sendToTelegramBot(message, botConfig);
       if (result.success) {
@@ -698,16 +716,17 @@ async function publishEarlyDetection() {
       console.log(`   Title: ${analysis.project_name} - ${analysis.opportunity_type}`);
       console.log(`   Score: ${Math.round(analysis.score / 10)}/10`);
       
-      // Final duplicate guard right before sending
-      const preSendDupCheck = deduplication.checkDeduplication({
+      // Final duplicate guard right before sending - ketat untuk menghindari duplikat
+      const signalForTracking = {
         source: originalSignal?.source || 'Unknown',
         title: analysis.project_name,
         link: analysis.evidence?.[0] || '',
         content: analysis.investment_angle || ''
-      }, {
-        contentSimilarityThreshold: 0.6,
-        titleSimilarityThreshold: 0.7,
-        maxSourcePerHour: 1,
+      };
+      const preSendDupCheck = deduplication.checkDeduplication(signalForTracking, {
+        contentSimilarityThreshold: 0.75,
+        titleSimilarityThreshold: 0.85,
+        maxSourcePerHour: 5,
         checkContent: true,
         checkTitle: true,
         checkSource: true,
@@ -718,17 +737,11 @@ async function publishEarlyDetection() {
         console.log(`❌ Skipping send (final guard): ${preSendDupCheck.reasons.join(', ')}`);
         continue;
       }
-      
+
       const result = await sendToTelegramBot(message, botConfig);
       if (result.success) {
         console.log(`✅ Watch item ${i + 1} sent successfully`);
         // Mark as published to prevent future resend
-        const signalForTracking = {
-          source: originalSignal?.source || 'Unknown',
-          title: analysis.project_name,
-          link: analysis.evidence?.[0] || '',
-          content: analysis.investment_angle || ''
-        };
         deduplication.markAsPublished(signalForTracking);
         deduplication.finalize();
       } else {
@@ -762,16 +775,17 @@ async function publishEarlyDetection() {
       console.log(`   Title: ${analysis.project_name} - ${analysis.opportunity_type}`);
       console.log(`   Score: ${Math.round(analysis.score / 10)}/10`);
       
-      // Final duplicate guard right before sending
-      const preSendDupCheck = deduplication.checkDeduplication({
+      // Final duplicate guard right before sending - ketat untuk menghindari duplikat
+      const signalForTracking = {
         source: originalSignal?.source || 'Unknown',
         title: analysis.project_name,
         link: analysis.evidence?.[0] || '',
         content: analysis.investment_angle || ''
-      }, {
-        contentSimilarityThreshold: 0.6,
-        titleSimilarityThreshold: 0.7,
-        maxSourcePerHour: 1,
+      };
+      const preSendDupCheck = deduplication.checkDeduplication(signalForTracking, {
+        contentSimilarityThreshold: 0.75,
+        titleSimilarityThreshold: 0.85,
+        maxSourcePerHour: 5,
         checkContent: true,
         checkTitle: true,
         checkSource: true,
@@ -782,17 +796,11 @@ async function publishEarlyDetection() {
         console.log(`❌ Skipping send (final guard): ${preSendDupCheck.reasons.join(', ')}`);
         continue;
       }
-      
+
       const result = await sendToTelegramBot(message, botConfig);
       if (result.success) {
         console.log(`✅ Risk alert ${i + 1} sent successfully`);
         // Mark as published to prevent future resend
-        const signalForTracking = {
-          source: originalSignal?.source || 'Unknown',
-          title: analysis.project_name,
-          link: analysis.evidence?.[0] || '',
-          content: analysis.investment_angle || ''
-        };
         deduplication.markAsPublished(signalForTracking);
         deduplication.finalize();
       } else {

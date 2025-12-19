@@ -5,7 +5,7 @@ import { readFileSync, writeFileSync, existsSync } from 'node:fs';
 import path from 'node:path';
 
 // Import analysis modules
-import { analyzeAllSignalsWithGemini } from '../agents/analysis_gemini_all_signals.mjs';
+import { analyzeAllSignalsWithGemini, analyzeAllSignalsWithGroq } from '../agents/analysis_gemini_all_signals.mjs';
 import { AnalysisTracker } from '../utils/analysis_tracker.mjs';
 import { AdvancedDeduplication } from '../utils/advanced_deduplication.mjs';
 
@@ -86,10 +86,11 @@ async function analyzeAllSignals() {
   // Apply advanced deduplication
   const deduplication = new AdvancedDeduplication();
   const dedupOptions = {
-    contentSimilarityThreshold: 0.7, // More strict
-    titleSimilarityThreshold: 0.8,   // More strict
-    maxSourcePerHour: 3,             // More strict
-    maxSignalsPerRun: 50             // More strict
+    contentSimilarityThreshold: 0.75, // More strict - 75% similarity = duplicate
+    titleSimilarityThreshold: 0.85,    // More strict - 85% similarity = duplicate
+    maxSourcePerHour: 5,               // More strict - max 5 per source per hour
+    // Naikkan batas sinyal per run supaya lebih banyak yang dianalisis
+    maxSignalsPerRun: 100
   };
   
   // Enrich signals for deduplication
@@ -115,45 +116,62 @@ async function analyzeAllSignals() {
     return { gemini_analysis: null };
   }
   
-  let analysisResults = null;
   let geminiResults = null;
   
-  // Gemini AI Analysis (Primary) - Analyze UNIQUE signals only
-  if (process.env.GEMINI_API_KEY1) {
-    console.log(`\n🧠 Gemini AI Analysis (Primary) - Analyzing ${uniqueSignals.length} UNIQUE signals...`);
+  // AI Analysis priority: Groq (cheaper) -> Gemini (fallback)
+  // Check for Groq keys: GROQ_API_KEY (legacy) or GROQ_API_KEY1, GROQ_API_KEY2, etc.
+  const hasGroq = !!process.env.GROQ_API_KEY || !!process.env.GROQ_API_KEY1;
+  const hasGemini = !!process.env.GEMINI_API_KEY1 || !!process.env.GEMINI_API_KEY || !!process.env.GEMINI_API_KEY_1;
+
+  if (hasGroq) {
+    console.log(`\n🧠 Groq AI Analysis (Primary) - Analyzing ${uniqueSignals.length} UNIQUE signals...`);
+    try {
+      geminiResults = await analyzeAllSignalsWithGroq(uniqueSignals);
+      if (geminiResults) {
+        console.log(`✅ Groq analysis complete: ${geminiResults.all_analyses.length} analyses identified`);
+        console.log(`   Analyzed: ${geminiResults.analyzed_signals}/${geminiResults.total_signals} signals`);
+        console.log(`   Errors: ${geminiResults.errors.length}`);
+      }
+    } catch (error) {
+      console.error(`❌ Groq analysis failed: ${error.message}`);
+      console.log('   Falling back to Gemini (if configured)...');
+    }
+  }
+
+  // Fallback to Gemini if others not available or failed
+  if ((!geminiResults || !geminiResults.all_analyses || geminiResults.all_analyses.length === 0) && hasGemini) {
+    console.log(`\n🧠 Gemini AI Analysis (Fallback) - Analyzing ${uniqueSignals.length} UNIQUE signals...`);
     try {
       geminiResults = await analyzeAllSignalsWithGemini(uniqueSignals);
       if (geminiResults) {
         console.log(`✅ Gemini analysis complete: ${geminiResults.all_analyses.length} analyses identified`);
         console.log(`   Analyzed: ${geminiResults.analyzed_signals}/${geminiResults.total_signals} signals`);
         console.log(`   Errors: ${geminiResults.errors.length}`);
-        
-        // Mark new analyses for Phase 3 publishing
-        geminiResults.new_analyses = geminiResults.all_analyses.filter(analysis => 
-          uniqueSignals.some(signal => 
-            signal.link === analysis.evidence?.[0] || 
-            signal.url === analysis.evidence?.[0]
-          )
-        );
-        console.log(`📤 New analyses for publishing: ${geminiResults.new_analyses.length}`);
-        
-        // Mark analyzed signals in tracker
-        uniqueSignals.forEach(signal => {
-          tracker.markAsAnalyzed(signal);
-        });
       }
     } catch (error) {
       console.error(`❌ Gemini analysis failed: ${error.message}`);
     }
-  } else {
-    console.log('\n⚠️  No Gemini API key found. Using basic analysis fallback.');
-    console.log('   Add GEMINI_API_KEY1 to your .env file for AI-powered analysis.');
   }
-  
-  // No fallback analysis - Gemini is required
-  if (!geminiResults || geminiResults.all_analyses.length === 0) {
-    console.log('\n❌ No Gemini analysis results available');
-    console.log('   Make sure GEMINI_API_KEY1 is set in .env file');
+
+  if (!geminiResults || !geminiResults.all_analyses || geminiResults.all_analyses.length === 0) {
+    console.log('\n❌ No AI analysis results available');
+    if (!hasGroq && !hasGemini) {
+      console.log('   Make sure GROQ_API_KEY or GEMINI_API_KEY1 is set in .env file');
+    }
+  } else {
+    // Mark new analyses for Phase 3 publishing
+    geminiResults.new_analyses = geminiResults.all_analyses.filter(analysis => 
+      uniqueSignals.some(signal => 
+        signal.link === analysis.evidence?.[0] || 
+        signal.url === analysis.evidence?.[0]
+      )
+    );
+    console.log(`📤 New analyses for publishing: ${geminiResults.new_analyses.length}`);
+    
+    // Mark analyzed signals in tracker
+    uniqueSignals.forEach(signal => {
+      tracker.markAsAnalyzed(signal);
+    });
   }
   
   // Save results
