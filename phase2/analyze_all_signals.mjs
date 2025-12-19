@@ -119,9 +119,27 @@ async function analyzeAllSignals() {
   let geminiResults = null;
   
   // AI Analysis priority: Groq (cheaper) -> Gemini (fallback)
-  // Check for Groq keys: GROQ_API_KEY (legacy) or GROQ_API_KEY1, GROQ_API_KEY2, etc.
-  const hasGroq = !!process.env.GROQ_API_KEY || !!process.env.GROQ_API_KEY1;
+  // Check for Groq keys: GROQ_API_KEY (legacy) or GROQ_API_KEY1-6
+  const groqKeys = [];
+  if (process.env.GROQ_API_KEY && process.env.GROQ_API_KEY.trim()) {
+    groqKeys.push('GROQ_API_KEY');
+  }
+  for (let i = 1; i <= 6; i++) {
+    if (process.env[`GROQ_API_KEY${i}`] && process.env[`GROQ_API_KEY${i}`].trim()) {
+      groqKeys.push(`GROQ_API_KEY${i}`);
+    }
+  }
+  const hasGroq = groqKeys.length > 0;
   const hasGemini = !!process.env.GEMINI_API_KEY1 || !!process.env.GEMINI_API_KEY || !!process.env.GEMINI_API_KEY_1;
+
+  // Debug: Log available API keys (without exposing values)
+  console.log('\n🔑 AI Provider Detection:');
+  console.log(`   Groq keys found: ${groqKeys.length} (${groqKeys.join(', ')})`);
+  console.log(`   Gemini keys found: ${hasGemini ? 'Yes' : 'No'}`);
+  if (!hasGroq && !hasGemini) {
+    console.log('   ⚠️  WARNING: No AI provider keys detected!');
+    console.log('   Make sure to set GROQ_API_KEY or GROQ_API_KEY1-6 in environment variables');
+  }
 
   if (hasGroq) {
     console.log(`\n🧠 Groq AI Analysis (Primary) - Analyzing ${uniqueSignals.length} UNIQUE signals...`);
