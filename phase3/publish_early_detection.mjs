@@ -555,6 +555,8 @@ async function publishEarlyDetection() {
   // Send ALL hot opportunities
   if (finalHotOpportunities.length > 0) {
     console.log(`\n🔥 Publishing ${finalHotOpportunities.length} Hot Opportunities...`);
+    console.log(`📊 Starting hot opportunities loop...`);
+    let skippedCount = 0;
     for (let i = 0; i < finalHotOpportunities.length; i++) {
       const analysis = finalHotOpportunities[i];
       
@@ -582,39 +584,56 @@ async function publishEarlyDetection() {
       deduplication.markAsProcessed(signalForTracking);
       
       // Final duplicate guard right before sending - fokus pada konten/judul duplikat
+      // Hanya cek jika sudah pernah dipublish di run ini (bukan dari tracker lama)
       const preSendDupCheck = deduplication.checkDeduplication(signalForTracking, {
-        contentSimilarityThreshold: 0.75,
-        titleSimilarityThreshold: 0.85,
-        maxSourcePerHour: 10,
-        checkContent: true,            // PENTING: cek konten duplikat
-        checkTitle: true,               // PENTING: cek judul duplikat
-        checkSource: true,
-        checkAlreadyPublished: false,   // Izinkan repost (daily highlights)
-        checkURLProcessed: false        // Izinkan repost URL
+        contentSimilarityThreshold: 0.80,  // Lebih longgar - 80% similarity
+        titleSimilarityThreshold: 0.90,    // Lebih longgar - 90% similarity
+        maxSourcePerHour: 20,               // Lebih longgar - 20 per jam
+        checkContent: false,                // Nonaktifkan untuk menghindari false positive
+        checkTitle: false,                  // Nonaktifkan untuk menghindari false positive
+        checkSource: false,                 // Nonaktifkan untuk menghindari false positive
+        checkAlreadyPublished: true,        // Cek sudah dipublish di run ini saja
+        checkURLProcessed: false            // Izinkan repost URL
       });
       if (preSendDupCheck.isDuplicate) {
+        skippedCount++;
         console.log(`❌ Skipping send (final guard): ${preSendDupCheck.reasons.join(', ')}`);
+        console.log(`   Details: ${JSON.stringify(preSendDupCheck.details)}`);
+        console.log(`   Skipped ${skippedCount}/${finalHotOpportunities.length} so far`);
         continue;
       }
-            
+      
+      console.log(`✅ Final guard passed, proceeding to send...`);
       publishResults.total++;
-      const result = await sendToTelegramBot(message, botConfig);
-      if (result.success) {
-        publishResults.sent++;
-        console.log(`✅ Hot opportunity ${i + 1} sent successfully`);
-        
-        // Mark as published in deduplication tracker and persist immediately
-        deduplication.markAsPublished(signalForTracking);
-        deduplication.finalize();
-      } else {
+      try {
+        const result = await sendToTelegramBot(message, botConfig);
+        if (result.success) {
+          publishResults.sent++;
+          console.log(`✅ Hot opportunity ${i + 1} sent successfully`);
+          
+          // Mark as published in deduplication tracker and persist immediately
+          deduplication.markAsPublished(signalForTracking);
+          deduplication.finalize();
+        } else {
+          publishResults.failed++;
+          publishResults.failedMessages.push({
+            type: 'hot_opportunity',
+            error: result.error,
+            message: `${analysis.project_name} - ${analysis.opportunity_type}`,
+            score: Math.round(analysis.score / 10)
+          });
+          console.log(`❌ Failed to send hot opportunity ${i + 1}: ${result.error}`);
+        }
+      } catch (error) {
+        console.error(`❌ Error processing hot opportunity ${i + 1}: ${error.message}`);
+        console.error(`   Stack: ${error.stack}`);
         publishResults.failed++;
         publishResults.failedMessages.push({
           type: 'hot_opportunity',
-          error: result.error,
-          message: `${analysis.project_name} - ${analysis.opportunity_type}`,
-          score: Math.round(analysis.score / 10)
+          error: error.message,
+          message: `Hot opportunity ${i + 1}`
         });
-        console.log(`❌ Failed to send hot opportunity ${i + 1}: ${result.error}`);
+        // Continue to next signal
       }
       
       if (i < finalHotOpportunities.length - 1) {
@@ -622,78 +641,103 @@ async function publishEarlyDetection() {
         await new Promise(resolve => setTimeout(resolve, 2000));
       }
     }
+    console.log(`📊 Hot opportunities summary: ${publishResults.sent} sent, ${skippedCount} skipped`);
+  } else {
+    console.log(`⚠️  No hot opportunities to publish (${finalHotOpportunities.length} found but filtered out)`);
   }
   
   // Send ALL early signals
   if (finalEarlySignals.length > 0) {
     console.log(`\n⚡ Publishing ${finalEarlySignals.length} Early Signals...`);
+    console.log(`📊 Starting early signals loop...`);
+    let skippedEarlyCount = 0;
     for (let i = 0; i < finalEarlySignals.length; i++) {
-      const analysis = finalEarlySignals[i];
-      
-      let originalSignal = null;
-      if (analysis.evidence && analysis.evidence[0]) {
-        originalSignal = originalSignals.find(signal => 
-          signal.link === analysis.evidence[0] || 
-          signal.url === analysis.evidence[0]
-        );
-      }
-      
-      const { message } = formatEarlyDetectionMessage(analysis, i, originalSignal);
-      
-      console.log(`📤 Sending early signal ${i + 1}/${finalEarlySignals.length}...`);
-      console.log(`   Title: ${analysis.project_name} - ${analysis.opportunity_type}`);
-      console.log(`   Score: ${Math.round(analysis.score / 10)}/10`);
-      
-      // Mark as processed BEFORE sending to prevent duplicate processing
-      const signalForTracking = {
-        source: originalSignal?.source || 'Unknown',
-        title: analysis.project_name,
-        link: analysis.evidence?.[0] || '',
-        content: analysis.investment_angle || ''
-      };
-      deduplication.markAsProcessed(signalForTracking);
-      
-      // Final duplicate guard right before sending - fokus pada konten/judul duplikat
-      const preSendDupCheck = deduplication.checkDeduplication(signalForTracking, {
-        contentSimilarityThreshold: 0.75,
-        titleSimilarityThreshold: 0.85,
-        maxSourcePerHour: 10,
-        checkContent: true,            // PENTING: cek konten duplikat
-        checkTitle: true,               // PENTING: cek judul duplikat
-        checkSource: true,
-        checkAlreadyPublished: false,   // Izinkan repost (daily highlights)
-        checkURLProcessed: false        // Izinkan repost URL
-      });
-      if (preSendDupCheck.isDuplicate) {
-        console.log(`❌ Skipping send (final guard): ${preSendDupCheck.reasons.join(', ')}`);
-        continue;
-      }
-
-      publishResults.total++;
-      const result = await sendToTelegramBot(message, botConfig);
-      if (result.success) {
-        publishResults.sent++;
-        console.log(`✅ Early signal ${i + 1} sent successfully`);
+      try {
+        const analysis = finalEarlySignals[i];
         
-        // Mark as published in deduplication tracker and persist immediately
-        deduplication.markAsPublished(signalForTracking);
-        deduplication.finalize();
-      } else {
+        let originalSignal = null;
+        if (analysis.evidence && analysis.evidence[0]) {
+          originalSignal = originalSignals.find(signal => 
+            signal.link === analysis.evidence[0] || 
+            signal.url === analysis.evidence[0]
+          );
+        }
+        
+        const { message } = formatEarlyDetectionMessage(analysis, i, originalSignal);
+        
+        console.log(`📤 Sending early signal ${i + 1}/${finalEarlySignals.length}...`);
+        console.log(`   Title: ${analysis.project_name} - ${analysis.opportunity_type}`);
+        console.log(`   Score: ${Math.round(analysis.score / 10)}/10`);
+        
+        // Mark as processed BEFORE sending to prevent duplicate processing
+        const signalForTracking = {
+          source: originalSignal?.source || 'Unknown',
+          title: analysis.project_name,
+          link: analysis.evidence?.[0] || '',
+          content: analysis.investment_angle || ''
+        };
+        deduplication.markAsProcessed(signalForTracking);
+        
+        // Final duplicate guard right before sending - fokus pada konten/judul duplikat
+        // Hanya cek jika sudah pernah dipublish di run ini (bukan dari tracker lama)
+        const preSendDupCheck = deduplication.checkDeduplication(signalForTracking, {
+          contentSimilarityThreshold: 0.80,  // Lebih longgar - 80% similarity
+          titleSimilarityThreshold: 0.90,    // Lebih longgar - 90% similarity
+          maxSourcePerHour: 20,               // Lebih longgar - 20 per jam
+          checkContent: false,                // Nonaktifkan untuk menghindari false positive
+          checkTitle: false,                  // Nonaktifkan untuk menghindari false positive
+          checkSource: false,                 // Nonaktifkan untuk menghindari false positive
+          checkAlreadyPublished: true,        // Cek sudah dipublish di run ini saja
+          checkURLProcessed: false            // Izinkan repost URL
+        });
+        if (preSendDupCheck.isDuplicate) {
+          skippedEarlyCount++;
+          console.log(`❌ Skipping send (final guard): ${preSendDupCheck.reasons.join(', ')}`);
+          console.log(`   Details: ${JSON.stringify(preSendDupCheck.details)}`);
+          console.log(`   Skipped ${skippedEarlyCount}/${finalEarlySignals.length} so far`);
+          continue;
+        }
+
+        console.log(`✅ Final guard passed, proceeding to send...`);
+        publishResults.total++;
+        const result = await sendToTelegramBot(message, botConfig);
+        if (result.success) {
+          publishResults.sent++;
+          console.log(`✅ Early signal ${i + 1} sent successfully`);
+          
+          // Mark as published in deduplication tracker and persist immediately
+          deduplication.markAsPublished(signalForTracking);
+          deduplication.finalize();
+        } else {
+          publishResults.failed++;
+          publishResults.failedMessages.push({
+            type: 'early_signal',
+            error: result.error,
+            message: `${analysis.project_name} - ${analysis.opportunity_type}`,
+            score: Math.round(analysis.score / 10)
+          });
+          console.log(`❌ Failed to send early signal ${i + 1}: ${result.error}`);
+        }
+        
+        if (i < finalEarlySignals.length - 1) {
+          console.log('⏳ Waiting 2s before next message...');
+          await new Promise(resolve => setTimeout(resolve, 2000));
+        }
+      } catch (error) {
+        console.error(`❌ Error processing early signal ${i + 1}: ${error.message}`);
+        console.error(`   Stack: ${error.stack}`);
         publishResults.failed++;
         publishResults.failedMessages.push({
           type: 'early_signal',
-          error: result.error,
-          message: `${analysis.project_name} - ${analysis.opportunity_type}`,
-          score: Math.round(analysis.score / 10)
+          error: error.message,
+          message: `Early signal ${i + 1}`
         });
-        console.log(`❌ Failed to send early signal ${i + 1}: ${result.error}`);
-      }
-      
-      if (i < finalEarlySignals.length - 1) {
-        console.log('⏳ Waiting 2s before next message...');
-        await new Promise(resolve => setTimeout(resolve, 2000));
+        // Continue to next signal
       }
     }
+    console.log(`📊 Early signals summary: ${publishResults.sent} sent, ${skippedEarlyCount} skipped`);
+  } else {
+    console.log(`⚠️  No early signals to publish (${finalEarlySignals.length} found but filtered out)`);
   }
   
   // Send ALL watch closely items
